@@ -5,7 +5,7 @@ const PORT = process.env.PORT;
 const app = require("./src/app");
 const server = require("http").createServer({}, app);
 const io = require("socket.io").listen(server);
-const ss = require("./src/services/SockeService");
+const ss = require("./src/services/SocketService");
 const db = knex({
     client: "pg",
     connection: {
