@@ -1,5 +1,9 @@
 const aboutService = require("./AboutService")
 const themeService = require("./ThemeService")
+const adminService = require("./AdminService")
+const authService = require("./AuthService")
+const encryptionService = require("./EncryptionService")
+const cs = require("./CredentialsService")
 
 const socketService = {
     intit: (io: any, db: any) => {
@@ -25,20 +29,33 @@ const socketService = {
                 })
             })
             //???------------------------------------------protected--------------------------------------------
+            socket.on("send-create-admin", (newAdmin: NewAdminTypes) => {
+                console.log(newAdmin)
+                encryptionService.generateHash(newAdmin.secret).then((hash: string) => {
+                    adminService.insertAdmin(db, newAdmin, hash).then((newAdmin: AdminTypes) => {
+                        console.log(newAdmin)
+                    })
+                })
+            })
             //current theme
-            socket.on("set-theme", (id: any) => {
-                themeService.getTheme(db, id.id).then((theme: any) => {
-                    if (theme) {
-                        themeService.setTheme(db, id.id)
-                        .then(() => {
-                            themeService.getCurrentTheme(db).then((theme: any) => {
-                                io.emit("receive-current-theme", theme)
-                            })
-
-                        })
-                    }else{
-                        console.log("not found")
-                    }
+            socket.on("set-theme", (args: { token: string, id: number }) => {
+                cs.checkCredentials(args.token).then((result: CheckCredentialsReturnTypes) => {
+                    console.log(result)
+                    // if(result.authenticated){
+                    //     themeService.getTheme(db, args.id).then((theme: any) => {
+                    //         if (theme) {
+                    //             themeService.setTheme(db, args.id)
+                    //                 .then(() => {
+                    //                     themeService.getCurrentTheme(db).then((theme: any) => {
+                    //                         io.emit("update-current-theme", theme)
+                    //                     })
+    
+                    //                 })
+                    //         }
+                    //     })
+                    // }else{
+                    //     io.to(id).emit("emit-auth-status", "forbidded")
+                    // }
                 })
             })
         })

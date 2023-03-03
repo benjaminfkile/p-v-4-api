@@ -1,3 +1,8 @@
+process.on("uncaughtException", function (err) {
+  console.error(err)
+  console.log("Node NOT Exiting...")
+})
+
 require("dotenv").config()
 const knex = require("knex")
 const PORT = process.env.PORT
@@ -15,6 +20,7 @@ const db = knex({
 })
 
 app.set("db", db)
+
 ss.intit(io, db)
 
 server.listen(PORT, () => {
