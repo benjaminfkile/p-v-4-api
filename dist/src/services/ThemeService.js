@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const themeService = {
+const service = {
     getThemes(knex) {
         return knex.from("themes")
             .select("*")
@@ -38,4 +38,4 @@ const themeService = {
             .update(Object.assign({}, theme));
     }
 };
-module.exports = themeService;
+module.exports = service;

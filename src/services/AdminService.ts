@@ -1,7 +1,7 @@
 
 import { Knex } from "knex"
 
-const adminService = {
+const service = {
     getAdmins(knex: Knex) {
         return knex.from("admins")
             .select("*")
@@ -32,4 +32,4 @@ const adminService = {
     }
 }
 
-module.exports = adminService
+module.exports = service

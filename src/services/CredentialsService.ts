@@ -1,15 +1,15 @@
 const as = require("../services/AuthService")
 
-const credentialsService = {
+const credService = {
     async checkCredentials(token: TokenTypes) {
 
         try {
-            const decoded = as.decodeToken(token)
-            return { authenticated: true, decoded: decoded }
+            const decodedToken = as.decodeToken(token)
+            return { authenticated: true, decodedToken: decodedToken }
         } catch (err) {
-            return { authenticated: false, decoded: {} }
+            return { authenticated: false, err: err }
         }
     }
 }
 
-module.exports = credentialsService
+module.exports = credService

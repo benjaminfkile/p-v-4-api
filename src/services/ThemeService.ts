@@ -1,7 +1,7 @@
 
 import { Knex } from "knex"
 
-const themeService = {
+const service = {
     getThemes(knex: Knex) {
         return knex.from("themes")
             .select("*")
@@ -40,4 +40,4 @@ const themeService = {
     }
 }
 
-module.exports = themeService
+module.exports = service

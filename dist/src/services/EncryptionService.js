@@ -10,7 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
-const encriptionService = {
+const service = {
     generateHash(secret) {
         return __awaiter(this, void 0, void 0, function* () {
             return bcrypt.hashSync(secret, saltRounds);
@@ -22,4 +22,4 @@ const encriptionService = {
         });
     }
 };
-module.exports = encriptionService;
+module.exports = service;

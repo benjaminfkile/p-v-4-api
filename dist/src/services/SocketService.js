@@ -4,7 +4,7 @@ const themeService = require("./ThemeService");
 const adminService = require("./AdminService");
 const authService = require("./AuthService");
 const encryptionService = require("./EncryptionService");
-const cs = require("./CredentialsService");
+const credentialsService = require("./CredentialsService");
 const socketService = {
     intit: (io, db) => {
         io.on("connection", (socket) => {
@@ -39,22 +39,22 @@ const socketService = {
             });
             //current theme
             socket.on("set-theme", (args) => {
-                cs.checkCredentials(args.token).then((result) => {
-                    console.log(result);
-                    // if(result.authenticated){
-                    //     themeService.getTheme(db, args.id).then((theme: any) => {
-                    //         if (theme) {
-                    //             themeService.setTheme(db, args.id)
-                    //                 .then(() => {
-                    //                     themeService.getCurrentTheme(db).then((theme: any) => {
-                    //                         io.emit("update-current-theme", theme)
-                    //                     })
-                    //                 })
-                    //         }
-                    //     })
-                    // }else{
-                    //     io.to(id).emit("emit-auth-status", "forbidded")
-                    // }
+                credentialsService.checkCredentials(args.token).then((result) => {
+                    if (result.authenticated) {
+                        themeService.getTheme(db, args.id).then((theme) => {
+                            if (theme) {
+                                themeService.setTheme(db, args.id)
+                                    .then(() => {
+                                    themeService.getCurrentTheme(db).then((theme) => {
+                                        io.emit("update-current-theme", theme);
+                                    });
+                                });
+                            }
+                        });
+                    }
+                    else {
+                        io.to(id).emit("emit-auth-status", "forbidde");
+                    }
                 });
             });
         });

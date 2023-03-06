@@ -3,7 +3,7 @@ const themeService = require("./ThemeService")
 const adminService = require("./AdminService")
 const authService = require("./AuthService")
 const encryptionService = require("./EncryptionService")
-const cs = require("./CredentialsService")
+const credentialsService = require("./CredentialsService")
 
 const socketService = {
     intit: (io: any, db: any) => {
@@ -39,23 +39,22 @@ const socketService = {
             })
             //current theme
             socket.on("set-theme", (args: { token: string, id: number }) => {
-                cs.checkCredentials(args.token).then((result: CheckCredentialsReturnTypes) => {
-                    console.log(result)
-                    // if(result.authenticated){
-                    //     themeService.getTheme(db, args.id).then((theme: any) => {
-                    //         if (theme) {
-                    //             themeService.setTheme(db, args.id)
-                    //                 .then(() => {
-                    //                     themeService.getCurrentTheme(db).then((theme: any) => {
-                    //                         io.emit("update-current-theme", theme)
-                    //                     })
+                credentialsService.checkCredentials(args.token).then((result: CheckCredentialsReturnTypes) => {
+                    if(result.authenticated){
+                        themeService.getTheme(db, args.id).then((theme: any) => {
+                            if (theme) {
+                                themeService.setTheme(db, args.id)
+                                    .then(() => {
+                                        themeService.getCurrentTheme(db).then((theme: any) => {
+                                            io.emit("update-current-theme", theme)
+                                        })
     
-                    //                 })
-                    //         }
-                    //     })
-                    // }else{
-                    //     io.to(id).emit("emit-auth-status", "forbidded")
-                    // }
+                                    })
+                            }
+                        })
+                    }else{
+                        io.to(id).emit("emit-auth-status", "forbidde")
+                    }
                 })
             })
         })

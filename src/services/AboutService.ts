@@ -1,7 +1,7 @@
 
 import { Knex } from "knex"
 
-const aboutService = {
+const service = {
     getAbout(knex: Knex) {
         return knex.from("about")
             .select("*")
@@ -11,4 +11,4 @@ const aboutService = {
     }
 }
 
-module.exports = aboutService
+module.exports = service

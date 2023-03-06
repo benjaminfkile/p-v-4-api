@@ -9,17 +9,17 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 const as = require("../services/AuthService");
-const credentialsService = {
+const credService = {
     checkCredentials(token) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const decoded = as.decodeToken(token);
-                return { authenticated: true, decoded: decoded };
+                const decodedToken = as.decodeToken(token);
+                return { authenticated: true, decodedToken: decodedToken };
             }
             catch (err) {
-                return { authenticated: false, decoded: {} };
+                return { authenticated: false, err: err };
             }
         });
     }
 };
-module.exports = credentialsService;
+module.exports = credService;

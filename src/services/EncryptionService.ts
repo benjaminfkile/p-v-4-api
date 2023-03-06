@@ -1,7 +1,7 @@
 const bcrypt = require("bcrypt")
 const saltRounds = 10
 
-const encriptionService = {
+const service = {
     async generateHash(secret: string) {
         return bcrypt.hashSync(secret, saltRounds)
     },
@@ -10,4 +10,4 @@ const encriptionService = {
     }
 }
 
-module.exports = encriptionService
+module.exports = service

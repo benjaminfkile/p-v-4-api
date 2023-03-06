@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const adminService = {
+const service = {
     getAdmins(knex) {
         return knex.from("admins")
             .select("*")
@@ -30,4 +30,4 @@ const adminService = {
         return knex.raw(raw);
     }
 };
-module.exports = adminService;
+module.exports = service;
