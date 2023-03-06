@@ -9,15 +9,22 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 const as = require("../services/AuthService");
+const skippy = require("../utils/Skippy");
 const credService = {
     checkCredentials(token) {
         return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const decodedToken = as.decodeToken(token);
-                return { authenticated: true, decodedToken: decodedToken };
+            const shouldSkip = process.env.SKIP_AUTH === "true" ? true : false;
+            if (!shouldSkip) {
+                try {
+                    const decodedToken = as.decodeToken(token);
+                    return { authenticated: true, decodedToken: decodedToken };
+                }
+                catch (err) {
+                    return { authenticated: false, err: err };
+                }
             }
-            catch (err) {
-                return { authenticated: false, err: err };
+            else {
+                return { authenticated: true, decodedToken: skippy }; //fake token
             }
         });
     }

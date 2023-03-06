@@ -54,7 +54,7 @@ const socketService = {
                             }
                         })
                     }else{
-                        io.to(id).emit("emit-auth-status", "forbidde")
+                        io.to(id).emit("emit-auth-status", "forbidden")
                     }
                 })
             })
