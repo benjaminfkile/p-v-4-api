@@ -29,14 +29,15 @@ const socketService = {
                 });
             });
             //???------------------------------------------protected--------------------------------------------
-            socket.on("send-create-admin", (newAdmin) => {
-                console.log(newAdmin);
-                encryptionService.generateHash(newAdmin.secret).then((hash) => {
-                    adminService.insertAdmin(db, newAdmin, hash).then((newAdmin) => {
-                        console.log(newAdmin);
-                    });
-                });
-            });
+            //!!!!! uncomment this to add an admin
+            // socket.on("send-create-admin", (newAdmin: NewAdminTypes) => {
+            //     console.log(newAdmin)
+            //     encryptionService.generateHash(newAdmin.secret).then((hash: string) => {
+            //         adminService.insertAdmin(db, newAdmin, hash).then((newAdmin: AdminTypes) => {
+            //             console.log(newAdmin)
+            //         })
+            //     })
+            // })
             //current theme
             socket.on("set-theme", (args) => {
                 credentialsService.checkCredentials(args.token).then((result) => {
